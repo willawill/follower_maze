@@ -4,3 +4,5 @@ task :run_server do
   server = FollowerMaze::Server.new
   server.start
 end
+
+task default: :run_server
