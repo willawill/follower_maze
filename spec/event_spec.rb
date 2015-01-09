@@ -11,4 +11,10 @@ describe FollowerMaze::Event do
       expect(subject.to).to eq("345")
     end
   end
+
+  describe "#execute!" do
+    it "creates the handler based on the event type" do
+      expect(subject.execute!).to eq("follow")
+    end
+  end
 end

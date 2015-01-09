@@ -7,7 +7,20 @@ module FollowerMaze
     end
 
     def execute!
-      p "Doing some stuff"
+      case @event_type
+      when "F"
+        "follow"
+      when "U"
+        "unfollow"
+      when "B"
+        "broadcast"
+      when "S"
+        "status update"
+      when "P"
+        "private message"
+      else
+        "fail silently"
+      end
     end
   end
 end
