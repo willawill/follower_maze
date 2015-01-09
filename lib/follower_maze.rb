@@ -3,10 +3,12 @@ require 'socket'
 require "thread"
 require "pry"
 
+def require_helper(path)
+  Dir[File.dirname(__FILE__) + "/follower_maze#{path}*.rb"].each { |file| p file ; require file }
+end
 
-require_relative "follower_maze/util/create_server"
-
-Dir[File.dirname(__FILE__) + "/follower_maze/*.rb"].each { |file| require file }
+require_helper("/util/")
+require_helper("/")
 
 module FollowerMaze
 

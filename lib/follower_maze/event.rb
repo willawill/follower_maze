@@ -1,26 +1,34 @@
 module FollowerMaze
   class Event
-    attr_reader :id, :event_type, :from, :to
+    attr_reader :id, :event_type, :from, :to, :pay_load
 
     def initialize(pay_load)
+      @pay_load = pay_load
       @id, @event_type, @from, @to = pay_load.split("|")
     end
 
-    def execute!
+    def concrete_event
       case @event_type
       when "F"
-        "follow"
+        FollowEvent
       when "U"
-        "unfollow"
+        UnfollowEvent
       when "B"
-        "broadcast"
+        BroadcastEvent
       when "S"
-        "status update"
+        StatusUpdateEvent
       when "P"
-        "private message"
+        PrivateMessageEvent
       else
-        "fail silently"
+        InvalidEvent
       end
     end
+
+    def execute!
+      concrete_event.new(@pay_load).execute!
+    end
+  end
+
+  class FollowEvent < Event
   end
 end
