@@ -1,13 +1,15 @@
 module FollowerMaze
   class Server
     attr_reader :listeners
+
     def initialize
-      @users = []
-      @listeners = [EventsListener.new, ClientListener.new]
+      @listeners = [ClientListener.new, EventsListener.new]
     end
 
     def start
-      @listeners.each { |l| l.start }
+      @listeners.map do |listener|
+       Thread.new { listener.start }
+     end.each(&:join)
     end
   end
 end
