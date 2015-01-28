@@ -1,6 +1,7 @@
 module FollowerMaze
   class User
-    attr_reader :id, :conn, :followers
+    attr_reader :id, :followers
+    attr_accessor :conn
 
     def initialize(id, conn=nil)
       @id = id
@@ -9,7 +10,6 @@ module FollowerMaze
     end
 
     def add_follower(follower_id)
-
       @followers << follower_id
     end
 
@@ -18,7 +18,7 @@ module FollowerMaze
     end
 
     def notify(message)
-      @conn.p message if @conn
+      @conn.puts message if @conn
     end
   end
 end

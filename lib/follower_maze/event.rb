@@ -31,9 +31,7 @@ module FollowerMaze
 
   class FollowEvent < Event
     def execute!
-      to_user = UserPool.find_user(@to)
-      p "===========FOLLOW============="
-      p to_user
+      to_user = UserPool.find_or_create_user(@to)
 
       if to_user.conn
         to_user.add_follower(@from)
@@ -44,12 +42,8 @@ module FollowerMaze
 
   class UnfollowEvent < Event
     def execute!
-
-      to_user = UserPool.find_user(@to)
-      p ("===========UNFOLLOW=============")
-      p to_user
-
-      to_user.remove_follower(@from) if to_user.conn
+      to_user = UserPool.find_or_create_user(@to)
+      to_user.remove_follower(@from)
     end
   end
 
@@ -63,14 +57,12 @@ module FollowerMaze
 
   class StatusUpdateEvent < Event
     def execute!
-      from_user = UserPool.find_user(@from)
-      p "=========StatusUpdate========="
-      p from_user
+      from_user = UserPool.find_or_create_user(@from)
 
       if from_user.conn
 
         from_user.followers.each do |user_id|
-          follower = UserPool.find_user(user_id)
+          follower = UserPool.find_or_create_user(user_id)
           if follower.conn
             follower.notify(@payload)
           end
@@ -81,9 +73,7 @@ module FollowerMaze
 
   class PrivateMessageEvent < Event
     def execute!
-      to_user = UserPool.find_user(@to)
-      p ("===========UNFOLLOW=============")
-      p to_user
+      to_user = UserPool.find_or_create_user(@to)
       to_user.notify(@pay_load) if to_user.conn
     end
   end

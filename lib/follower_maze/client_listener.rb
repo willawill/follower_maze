@@ -11,7 +11,7 @@ module FollowerMaze
       loop do
         conn = @server.accept
         user_id = conn.readline.strip
-        UserPool.add_or_update_user(new_user, conn)
+        UserPool.add_or_update_user(user_id, conn)
       end
     end
 

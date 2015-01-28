@@ -12,5 +12,4 @@ require_helper("/util/")
 require_helper("/")
 
 module FollowerMaze
-
 end

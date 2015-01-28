@@ -7,8 +7,13 @@ module FollowerMaze
         @@connected_users
       end
 
-      def add_or_update_user(user_id, conn=nil)
-        user = User.new(user_id, conn)
+      def connected_users
+        @@connected_users.select {|user| !user.conn.blank? }
+      end
+
+      def add_or_update_user(user_id, conn)
+        user = find_or_create_user(user_id)
+        user.conn = conn
         @@connected_users[user.id] = user
       end
 
@@ -16,7 +21,7 @@ module FollowerMaze
         @@connected_users.delete(user_id)
       end
 
-      def find_user(user_id)
+      def find_or_create_user(user_id)
         @@connected_users[user_id] || User.new(user_id, nil)
       end
     end
