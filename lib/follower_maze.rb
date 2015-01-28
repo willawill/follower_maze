@@ -12,4 +12,6 @@ require_helper("/util/")
 require_helper("/")
 
 module FollowerMaze
+	@@logger = Logger.new(STDOUT)
 end
+
