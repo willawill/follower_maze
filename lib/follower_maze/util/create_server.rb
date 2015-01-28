@@ -4,11 +4,11 @@ module FollowerMaze
       attr_reader :host, :port
 
       def server
-        @socket ||= TCPServer.new(port)
+        @conn ||= TCPServer.new(@port)
       end
 
       def close
-        @socket.close
+        @conn.close
       end
     end
   end
