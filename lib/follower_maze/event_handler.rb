@@ -18,7 +18,7 @@ module FollowerMaze
     def start
       @sender = Thread.new do
         loop do
-          p event = @buffer.pop
+          event = @buffer.pop
           event.execute!
         end
       end

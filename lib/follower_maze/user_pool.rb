@@ -1,28 +1,28 @@
 module FollowerMaze
   class UserPool
-    @@connected_users = {}
+    @@users = {}
 
     class << self
       def all_users
-        @@connected_users
+        @@users
       end
 
       def connected_users
-        @@connected_users.select {|user| !user.conn.blank? }
+        @@users.select { |id, user| user.conn != nil }
       end
 
       def add_or_update_user(user_id, conn)
         user = find_or_create_user(user_id)
         user.conn = conn
-        @@connected_users[user.id] = user
+        @@users[user.id] = user
       end
 
       def remove_user(user_id)
-        @@connected_users.delete(user_id)
+        @@users.delete(user_id)
       end
 
       def find_or_create_user(user_id)
-        @@connected_users[user_id] || User.new(user_id, nil)
+        @@users[user_id] || @@users[user_id] = User.new(user_id, nil)
       end
     end
   end
