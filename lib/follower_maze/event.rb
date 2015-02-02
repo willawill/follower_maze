@@ -27,11 +27,18 @@ module FollowerMaze
     def execute!
       concrete_event.new(@pay_load).execute!
     end
+
+    def to_user
+      UserPool.find_or_create_user(@to)
+    end
+
+    def from_user
+      UserPool.find_or_create_user(@from)
+    end
   end
 
   class FollowEvent < Event
     def execute!
-      to_user = UserPool.find_or_create_user(@to)
       to_user.add_follower(@from)
       to_user.notify(@pay_load + "\r\n")
     end
@@ -39,7 +46,6 @@ module FollowerMaze
 
   class UnfollowEvent < Event
     def execute!
-      to_user = UserPool.find_or_create_user(@to)
       to_user.remove_follower(@from)
     end
   end
@@ -54,7 +60,6 @@ module FollowerMaze
 
   class StatusUpdateEvent < Event
     def execute!
-      from_user = UserPool.find_or_create_user(@from)
       from_user.followers.each do |user_id|
         follower = UserPool.find_or_create_user(user_id)
         follower.notify(@pay_load)
@@ -64,7 +69,6 @@ module FollowerMaze
 
   class PrivateMessageEvent < Event
     def execute!
-      to_user = UserPool.find_or_create_user(@to)
       to_user.notify(@pay_load)
     end
   end
