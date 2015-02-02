@@ -2,13 +2,27 @@ require "spec_helper"
 
 module FollowerMaze
   describe UserPool do
-    subject { UserPool }
     let(:user) { User.new("id", nil) }
     let(:connection) { double(puts: "message") }
+
+    subject { UserPool }
+
+    after(:each) do
+      subject.all_users = {}
+    end
 
     describe ".all_users" do
       it "returns all users" do
         expect(subject.all_users).to eq({})
+      end
+    end
+
+    describe ".connected_users" do
+      it "returns all the currently connected user" do
+        subject.add_or_update_user("connected", "connection")
+        subject.add_or_update_user("disconnected", nil)
+
+        expect(subject.connected_users.count).to eq(1)
       end
     end
 

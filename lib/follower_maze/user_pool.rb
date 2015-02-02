@@ -7,6 +7,10 @@ module FollowerMaze
         @@users
       end
 
+      def all_users=(users)
+        @@users = users
+      end
+
       def connected_users
         @@users.select { |id, user| user.conn != nil }
       end
