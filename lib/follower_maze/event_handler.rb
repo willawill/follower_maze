@@ -3,7 +3,7 @@ module FollowerMaze
     def initialize
       @events = []
       @sender = nil
-      @comsumer = nil
+      @consumer = nil
       @events_buffer = EventBuffer.new
       @mutex = Mutex.new
       @buffer = Queue.new
@@ -23,7 +23,7 @@ module FollowerMaze
         end
       end
 
-      @comsumer = Thread.new do
+      @consumer = Thread.new do
         loop do
           @mutex.synchronize do
             @buffer << @events_buffer.get_next if @events_buffer.has_next
