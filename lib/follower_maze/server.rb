@@ -7,6 +7,7 @@ module FollowerMaze
     end
 
     def start
+      $logger.info("===========Server two starts=============")
       @listeners.map do |listener|
         Thread.new do
           listener.start

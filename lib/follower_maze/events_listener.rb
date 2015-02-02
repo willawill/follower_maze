@@ -7,6 +7,7 @@ module FollowerMaze
     end
 
     def start
+      $logger.info("Event listner is connected.")
       @handler.start
       loop do
         conn = @server.accept

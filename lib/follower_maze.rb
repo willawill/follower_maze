@@ -12,6 +12,18 @@ require_helper("/util/")
 require_helper("/")
 
 module FollowerMaze
-	@@logger = Logger.new(STDOUT)
+  extend self
+
+  EVENT_PORT = 9090
+  CLIENT_PORT = 9099
+end
+
+module FollowerMaze
+  extend self
+  file_name = "#{Time.now}-follower_maze.log"
+  File.open(file_name, "w+")
+
+  $logger = Logger.new(file_name)
+  $logger.level = Logger::INFO
 end
 
