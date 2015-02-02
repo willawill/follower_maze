@@ -7,20 +7,20 @@ module FollowerMaze
 
     subject { UserPool }
 
-    after(:each) do
-      subject.all_users = {}
-    end
+    after(:each) { subject.all_users = {} }
 
     describe ".all_users" do
       it "returns all users" do
+        subject.all_users = {}
+
         expect(subject.all_users).to eq({})
       end
     end
 
     describe ".connected_users" do
       it "returns all the currently connected user" do
-        subject.add_or_update_user("connected", "connection")
-        subject.add_or_update_user("disconnected", nil)
+        subject.all_users = { "connected" => instance_double(User, conn: "connected"),
+                              "disconnected" => instance_double(User, conn: nil) }
 
         expect(subject.connected_users.count).to eq(1)
       end
@@ -37,7 +37,7 @@ module FollowerMaze
 
     describe ".remove_user" do
       it "removes the id: user_instance pair from UserPool" do
-        subject.add_or_update_user("id", nil)
+        subject.all_users = { "id" => user }
 
         subject.remove_user(user.id)
         expect(subject.all_users).to eq({})
@@ -47,6 +47,7 @@ module FollowerMaze
     describe ".find_or_create_user" do
       it "finds user_instance from UserPool with user id" do
         user = subject.find_or_create_user("id")
+
         expect(user).to eq(user)
       end
     end
