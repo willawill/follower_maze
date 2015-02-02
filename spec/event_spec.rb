@@ -5,7 +5,7 @@ module FollowerMaze
     let(:follow){ described_class.new ("12|F|123|345") }
     let(:unfollow){ described_class.new ("12|U|123|345") }
     let(:status_update){ described_class.new ("12|S|123|345") }
-    let(:broadcast){ described_class.new ("12|B|123|345") }
+    let(:broadcast){ described_class.new ("12|B|123") }
     let(:private_message){ described_class.new ("12|P|123|345") }
 
     describe "#initialize" do
@@ -55,11 +55,11 @@ module FollowerMaze
       describe FollowEvent do
         describe "#execute!" do
           before(:each) do
-            allow(UserPool).to receive(:find_user).with("345").and_return(to_user)
+            allow(UserPool).to receive(:find_or_create_user).with("345").and_return(to_user)
           end
 
           it "finds the to_user in UserPool" do
-            expect(UserPool).to receive(:find_user)
+            expect(UserPool).to receive(:find_or_create_user)
             follow.execute!
           end
 
@@ -78,6 +78,16 @@ module FollowerMaze
       end
 
       describe BroadcastEvent do
+        let(:connected_user) { instance_double(User, id: "connected", conn: "connected") }
+        let(:disconnected_user) { instance_double(User, id: "disconnected", conn: nil) }
+
+        it "notifies all the connected users" do
+          UserPool.all_users = { "connected" => connected_user, "disconnected" => disconnected_user }
+          expect(connected_user).to receive(:notify).with(broadcast.pay_load)
+          expect(disconnected_user).not_to receive(:notify).with(broadcast.pay_load)
+
+          broadcast.execute!
+        end
       end
     end
   end

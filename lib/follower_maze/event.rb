@@ -39,7 +39,6 @@ module FollowerMaze
 
   class UnfollowEvent < Event
     def execute!
-
       to_user = UserPool.find_or_create_user(@to)
       to_user.remove_follower(@from)
     end
@@ -47,8 +46,7 @@ module FollowerMaze
 
   class BroadcastEvent < Event
     def execute!
-
-      UserPool.connected_users.each do |id, user|
+      UserPool.connected_users.each do |_, user|
         user.notify(@pay_load)
       end
     end
