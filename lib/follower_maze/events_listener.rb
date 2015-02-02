@@ -1,8 +1,7 @@
 module FollowerMaze
   class EventsListener
     def initialize
-      @port = 9090
-      @server = TCPServer.new(@port)
+      @server = TCPServer.new(FollowerMaze::EVENT_PORT)
       @handler = EventHandler.new
     end
 
