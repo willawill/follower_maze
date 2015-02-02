@@ -4,7 +4,7 @@ module FollowerMaze
   describe Event do
     let(:follow){ described_class.new ("12|F|123|345") }
     let(:unfollow){ described_class.new ("12|U|123|345") }
-    let(:status_update){ described_class.new ("12|S|123|345") }
+    let(:status_update){ described_class.new ("12|S|123") }
     let(:broadcast){ described_class.new ("12|B|123") }
     let(:private_message){ described_class.new ("12|P|123|345") }
 
@@ -77,6 +77,17 @@ module FollowerMaze
         end
       end
 
+      describe UnfollowEvent do
+        let(:to_user) { instance_double(User, remove_follower: "remove_follower") }
+
+        it "removes the from_user from to_user's followers group" do
+          allow(UserPool).to receive(:find_or_create_user).with("345").and_return(to_user)
+          expect(to_user).to receive(:remove_follower).with("123")
+
+          unfollow.execute!
+        end
+      end
+
       describe BroadcastEvent do
         let(:connected_user) { instance_double(User, id: "connected", conn: "connected") }
         let(:disconnected_user) { instance_double(User, id: "disconnected", conn: nil) }
@@ -87,6 +98,35 @@ module FollowerMaze
           expect(disconnected_user).not_to receive(:notify).with(broadcast.pay_load)
 
           broadcast.execute!
+        end
+      end
+
+      describe StatusUpdateEvent do
+        let(:first_follower) { instance_double(User, id: "1", notify: "foo") }
+        let(:second_follower) { instance_double(User, id: "2", notify: "foo") }
+        let(:from_user) { instance_double(User, followers: ["1", "2"]) }
+
+        it "informs all the followers of from_user about the new status" do
+          allow(UserPool).to receive(:find_or_create_user).with("123").and_return(from_user)
+          allow(UserPool).to receive(:find_or_create_user).with("1").and_return(first_follower)
+          allow(UserPool).to receive(:find_or_create_user).with("2").and_return(second_follower)
+
+          expect(first_follower).to receive(:notify).with("12|S|123")
+          expect(second_follower).to receive(:notify).with("12|S|123")
+
+          status_update.execute!
+        end
+      end
+
+      describe PrivateMessageEvent do
+        let(:from_user) { instance_double(User, id: "from", conn: "connected") }
+        let(:to_user) { instance_double(User, id: "to", conn: "connected", notify: "foo") }
+
+        it "sends private message from from_user to to_user" do
+          allow(UserPool).to receive(:find_or_create_user).with("345").and_return(to_user)
+          expect(to_user).to receive(:notify).with("12|P|123|345")
+
+          private_message.execute!
         end
       end
     end
