@@ -8,7 +8,9 @@ module FollowerMaze
 
     def start
       @listeners.map do |listener|
-       Thread.new { listener.start }
+        Thread.new do
+          listener.start
+        end
      end.each(&:join)
     end
   end
