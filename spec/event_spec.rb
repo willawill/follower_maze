@@ -7,6 +7,7 @@ module FollowerMaze
     let(:status_update){ described_class.new ("12|S|123") }
     let(:broadcast){ described_class.new ("12|B|123") }
     let(:private_message){ described_class.new ("12|P|123|345") }
+    let(:invalid){ described_class.new ("12|I|123|345") }
 
     describe "#initialize" do
       it "creates event with event payload" do
@@ -127,6 +128,12 @@ module FollowerMaze
           expect(to_user).to receive(:notify).with("12|P|123|345")
 
           private_message.execute!
+        end
+      end
+
+      describe InvalidEvent do
+        it "will be ignored silently" do
+          expect(invalid.execute!).to eq(nil)
         end
       end
     end

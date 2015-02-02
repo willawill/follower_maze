@@ -68,4 +68,9 @@ module FollowerMaze
       to_user.notify(@pay_load)
     end
   end
+
+  class InvalidEvent < Event
+    def execute!
+    end
+  end
 end
