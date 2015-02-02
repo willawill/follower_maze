@@ -28,12 +28,12 @@ module FollowerMaze
       concrete_event.new(@pay_load).execute!
     end
 
-    def to_user
-      UserPool.find_or_create_user(@to)
-    end
+    private
 
-    def from_user
-      UserPool.find_or_create_user(@from)
+    ["to", "from"].each do |name|
+      define_method "#{name}_user" do
+        UserPool.find_or_create_user(self.send name)
+      end
     end
   end
 
