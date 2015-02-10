@@ -3,7 +3,7 @@ module FollowerMaze
     attr_reader :events
 
 		def initialize
-			@events = {}
+      @events = {}
   		@next_event = 1
 		end
 
