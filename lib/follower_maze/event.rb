@@ -75,6 +75,8 @@ module FollowerMaze
 
   class InvalidEvent < Event
     def execute!
+      $logger.info("===========Invalid Event=============")
+      $logger.info("The event #{@pay_load} is invalid")
     end
   end
 end
