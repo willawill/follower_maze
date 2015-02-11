@@ -1,7 +1,7 @@
 require "spec_helper"
 module FollowerMaze
   describe FollowerMaze::Server do
-    subject { described_class.new }
+    subject { described_class.new(1000, 2000) }
 
     let(:client_double) { instance_double(ClientListener, start: "foo") }
     let(:events_double) { instance_double(EventsListener, start: "bar") }

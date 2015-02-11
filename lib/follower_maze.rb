@@ -13,13 +13,6 @@ require_helper("/")
 
 module FollowerMaze
   extend self
-
-  EVENT_PORT = 9090
-  CLIENT_PORT = 9099
-end
-
-module FollowerMaze
-  extend self
   file_name = "#{Time.now}-follower_maze.log"
   File.open(file_name, "w+")
 

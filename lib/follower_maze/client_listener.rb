@@ -1,7 +1,7 @@
 module FollowerMaze
   class ClientListener
-    def initialize
-      @server = TCPServer.new(FollowerMaze::CLIENT_PORT)
+    def initialize(port)
+      @server = TCPServer.new(port)
     end
 
     def start

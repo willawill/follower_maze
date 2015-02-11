@@ -2,8 +2,8 @@ module FollowerMaze
   class Server
     attr_reader :listeners
 
-    def initialize
-      @listeners = [ClientListener.new, EventsListener.new]
+    def initialize(client_port, event_port)
+      @listeners = [ClientListener.new(client_port), EventsListener.new(event_port)]
     end
 
     def start

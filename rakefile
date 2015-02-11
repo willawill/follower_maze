@@ -1,7 +1,8 @@
 require_relative "lib/follower_maze"
 
-task :run_server do
-  server = FollowerMaze::Server.new
+task :run_server, [:client_port, :event_port] do |t, args|
+  args.with_defaults(client_port: 9099, event_port: 9090)
+  server = FollowerMaze::Server.new(args[:client_port], args[:event_port])
   server.start
 end
 
