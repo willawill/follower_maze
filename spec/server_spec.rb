@@ -1,17 +1,26 @@
 require "spec_helper"
 module FollowerMaze
   describe FollowerMaze::Server do
-    subject { described_class.new(1000, 2000) }
+    let(:client_config) { double() }
+    let(:event_config) { double() }
+
+    subject { described_class.new(client_config, event_config) }
 
     let(:client_double) { instance_double(ClientListener, start: "foo") }
     let(:events_double) { instance_double(EventsListener, start: "bar") }
 
     before(:each) do
-      allow(ClientListener).to receive(:new).and_return(client_double)
-      allow(EventsListener).to receive(:new).and_return(events_double)
+      allow(ClientListener).to receive(:new).with(client_config).and_return(client_double)
+      allow(EventsListener).to receive(:new).with(event_config).and_return(events_double)
     end
 
     describe "#initialize" do
+      it "creates ClientListener and EventsListener" do
+        expect(ClientListener).to receive(:new).with(client_config)
+        expect(EventsListener).to receive(:new).with(event_config)
+        subject
+      end
+
       it "creates two listeners" do
         expect(subject.listeners.count).to eq(2)
       end
