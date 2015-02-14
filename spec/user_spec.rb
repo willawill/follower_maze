@@ -42,6 +42,7 @@ describe FollowerMaze::User do
 
     context "when the user is disconnected" do
       it "fails silently" do
+        allow_message_expectations_on_nil
         expect(subject.conn).not_to receive(:puts)
 
         subject.notify("345")
