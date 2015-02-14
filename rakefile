@@ -4,8 +4,8 @@ desc "Start the server"
 task :run_server, [:event_host, :client_host, :client_port, :event_port, :log_level] do |t, args|
   args.with_defaults(event_host: "127.0.0.1", client_host: "127.0.0.1", client_port: 9099, event_port: 9090)
 
-  client_config = FollowerMaze::ListenerConfig.new(args.client_host, args.client_port)
-  event_config = FollowerMaze::ListenerConfig.new(args.event_host, args.event_port)
+  client_config = OpenStruct.new(host: args.client_host, port: args.client_port)
+  event_config = OpenStruct.new(host: args.event_host, port: args.event_port)
 
   server = FollowerMaze::Server.new(client_config, event_config)
   server.start

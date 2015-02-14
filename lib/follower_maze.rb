@@ -2,6 +2,7 @@
 require 'socket'
 require "thread"
 require "logger"
+require "ostruct"
 require "pry"
 
 def require_helper(path)
