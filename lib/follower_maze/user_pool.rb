@@ -17,8 +17,11 @@ module FollowerMaze
 
       def add_or_update_user(user_id, conn)
         user = find_or_create_user(user_id)
-        user.conn = conn
-        @@users[user.id] = user
+
+        unless conn == nil
+          user.conn = conn
+          @@users[user.id] = user
+        end
       end
 
       def remove_user(user_id)
@@ -26,7 +29,7 @@ module FollowerMaze
       end
 
       def find_or_create_user(user_id)
-        @@users[user_id] || @@users[user_id] = User.new(user_id, nil)
+        @@users[user_id] ||= User.new(user_id, nil)
       end
     end
   end
