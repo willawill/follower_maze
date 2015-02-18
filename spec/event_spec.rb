@@ -2,50 +2,56 @@ require "spec_helper"
 
 module FollowerMaze
   describe Event do
-    let(:follow){ described_class.new ("12|F|123|345") }
-    let(:unfollow){ described_class.new ("12|U|123|345") }
-    let(:status_update){ described_class.new ("12|S|123") }
-    let(:broadcast){ described_class.new ("12|B|123") }
-    let(:private_message){ described_class.new ("12|P|123|345") }
-    let(:invalid){ described_class.new ("12|123|345") }
+    let(:follow){ described_class.create_event("12|F|123|345") }
+    let(:unfollow){ described_class.create_event ("12|U|123|345") }
+    let(:status_update){ described_class.create_event ("12|S|123") }
+    let(:broadcast){ described_class.create_event ("12|B|123") }
+    let(:private_message){ described_class.create_event ("12|P|123|345") }
+    let(:invalid){ described_class.create_event ("12|123|345") }
+
+    describe ".create_event" do
+      it "creates the event based on the event type" do
+        expect(Event.create_event("12|F|123|345").class).to eq(FollowEvent)
+      end
+    end
 
     describe "#initialize" do
       it "creates event with event payload" do
-        expect(follow.id).to eq("12")
+        expect(follow.id).to eq(12)
         expect(follow.event_type).to eq("F")
         expect(follow.from).to eq("123")
         expect(follow.to).to eq("345")
       end
     end
 
-    describe "#concrete_event" do
+    describe ".concrete_event" do
       context "#FollowEvent" do
         it "creates a FollowEvent" do
-          expect(follow.concrete_event).to eq(FollowEvent)
+          expect(Event.concrete_event("F")).to eq(FollowEvent)
         end
       end
 
       context "#UnfollowEvent" do
         it "creates an UnfollowEvent" do
-          expect(unfollow.concrete_event).to eq(UnfollowEvent)
+          expect(Event.concrete_event("U")).to eq(UnfollowEvent)
         end
       end
 
       context "#StatusUpdateEvent" do
         it "creates a StatusUpdateEvent" do
-          expect(status_update.concrete_event).to eq(StatusUpdateEvent)
+          expect(Event.concrete_event("S")).to eq(StatusUpdateEvent)
         end
       end
 
       context "#BroadcastEvent" do
         it "creates a BroadcastEvent" do
-          expect(broadcast.concrete_event).to eq(BroadcastEvent)
+          expect(Event.concrete_event("B")).to eq(BroadcastEvent)
         end
       end
 
       context "#PrivateMessageEvent"do
         it "creates a PrivateMessage" do
-          expect(private_message.concrete_event).to eq(PrivateMessageEvent)
+          expect(Event.concrete_event("P")).to eq(PrivateMessageEvent)
         end
       end
     end

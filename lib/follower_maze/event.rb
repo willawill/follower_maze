@@ -1,14 +1,15 @@
 module FollowerMaze
   class Event
-    attr_reader :id, :event_type, :from, :to, :pay_load
+    attr_reader :id, :from, :event_type, :to, :pay_load
 
-    def initialize(pay_load)
-      @pay_load = pay_load
-      @id, @event_type, @from, @to = pay_load.split("|")
+    def self.create_event(pay_load)
+      id, event_type, from, to = pay_load.split("|")
+      klass = concrete_event(event_type)
+      klass.new(id, event_type, from, to, pay_load)
     end
 
-    def concrete_event
-      case @event_type
+    def self.concrete_event(event_type)
+      case event_type
       when "F"
         FollowEvent
       when "U"
@@ -24,8 +25,8 @@ module FollowerMaze
       end
     end
 
-    def execute!
-      concrete_event.new(@pay_load).execute!
+    def initialize(id, event_type, from, to, pay_load)
+      @id, @event_type, @from, @to, @pay_load = id.to_i, event_type, from, to, pay_load
     end
 
     private
