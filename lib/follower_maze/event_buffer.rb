@@ -1,7 +1,5 @@
 module FollowerMaze
   class EventBuffer
-    attr_reader :events
-
     def initialize
       @events = {}
       @next_event = 1
@@ -11,14 +9,12 @@ module FollowerMaze
       @events[event.id] = event
     end
 
-    def has_next
-      !!@events[@next_event.to_s]
+    def has_next?
+      !@events[@next_event].nil?
     end
 
     def get_next
-      @events[@next_event.to_s].tap do |_|
-        @next_event += 1
-      end
+      @events.delete(@next_event).tap { @next_event +=1 }
     end
   end
 end

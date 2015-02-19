@@ -4,6 +4,7 @@ require "thread"
 require "logger"
 require "ostruct"
 require "pry"
+require 'ruby-prof'
 
 def require_helper(path)
   Dir[File.dirname(__FILE__) + "/follower_maze#{path}*.rb"].each { |file| require file }

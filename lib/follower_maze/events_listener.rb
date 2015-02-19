@@ -7,15 +7,12 @@ module FollowerMaze
 
     def start
       $logger.info("Event listner is connected.")
-      @handler.start
-      loop do
-        conn = @server.accept
+      conn = @server.accept
 
-        until conn.eof?
-          event_payload = conn.readline.strip
-          event = Event.new(event_payload)
-          @handler.add_event(event)
-        end
+      while line = conn.gets do
+        event_payload = line.strip
+        event = Event.create_event(event_payload)
+        @handler.add_event(event)
       end
     end
 

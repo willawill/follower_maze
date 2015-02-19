@@ -138,8 +138,8 @@ module FollowerMaze
       end
 
       describe InvalidEvent do
-
         it "will be logged into logfile" do
+          allow_message_expectations_on_nil
           expect($logger).to receive(:info).with("===========Invalid Event=============")
           expect($logger).to receive(:info).with("The event 12|123|345 is invalid")
 

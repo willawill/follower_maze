@@ -1,5 +1,7 @@
 require_relative "lib/follower_maze"
 
+$stdout.sync = true
+
 desc "Start the server"
 task :run_server, [:event_host, :client_host, :client_port, :event_port, :log_level] do |t, args|
   args.with_defaults(event_host: "127.0.0.1", client_host: "127.0.0.1", client_port: 9099, event_port: 9090)
