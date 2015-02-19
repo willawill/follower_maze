@@ -22,7 +22,7 @@ module FollowerMaze
       end
 
       it "creates two listeners" do
-        expect(subject.listeners.count).to eq(2)
+        expect(subject.instance_variable_get("@listeners").count).to eq(2)
       end
     end
 

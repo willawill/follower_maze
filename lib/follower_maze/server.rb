@@ -1,7 +1,5 @@
 module FollowerMaze
   class Server
-    attr_reader :listeners
-
     def initialize(client_config, event_config)
       @listeners = [ClientListener.new(client_config), EventsListener.new(event_config)]
     end
@@ -17,7 +15,11 @@ module FollowerMaze
     end
 
     def shut_down
-      @listeners.each { |l| l.kill }
+      begin
+        @listeners.each { |l| l.kill }
+      rescue
+        p "Bye"
+      end
     end
   end
 end

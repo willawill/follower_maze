@@ -2,14 +2,8 @@ require "spec_helper"
 
 module FollowerMaze
   describe EventHandler do
-    subject { described_class.new }
+    subject { described_class }
     let(:event_double) { double(id: 123, execute!: "foo") }
-
-    describe "#initialize" do
-      it "has an event buffer as its instance variable" do
-        expect(subject.instance_variable_get("@events_buffer").class).to eq(EventBuffer)
-      end
-    end
 
     describe "#add_event" do
       context "when there is a next event in the event buffer" do
