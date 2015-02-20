@@ -2,6 +2,8 @@ module FollowerMaze
   class Server
     def initialize(client_config, event_config)
       @listeners = [ClientListener.new(client_config), EventsListener.new(event_config)]
+      $logger.info "ClientListener is connected at #{client_config.host}:#{client_config.port}"
+      $logger.info "ClientListener is connected at #{event_config.host}:#{event_config.port}"
     end
 
     def start
@@ -18,7 +20,7 @@ module FollowerMaze
       begin
         @listeners.each { |l| l.kill }
       rescue
-        p "Bye"
+        $logger.info "Server shut down."
       end
     end
   end

@@ -18,6 +18,5 @@ module FollowerMaze
   File.open(file_name, "w+")
 
   $logger = Logger.new(file_name)
-  $logger.level = Logger::INFO
 end
 

@@ -7,6 +7,7 @@ module FollowerMaze
         @@events_buffer.add_event(event)
         while @@events_buffer.has_next?
           event = @@events_buffer.get_next
+          $logger.debug "Event #{event.pay_load} should be executing...."
           event.execute!
         end
       end

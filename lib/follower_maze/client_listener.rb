@@ -9,6 +9,7 @@ module FollowerMaze
       loop do
         conn = @server.accept
         user_id = conn.readline.strip
+        $logger.debug "Client #{user_id} is connected."
 
         UserPool.add_or_update_user(user_id, conn)
       end
