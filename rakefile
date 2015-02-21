@@ -1,3 +1,9 @@
 require_relative "lib/follower_maze"
+require 'fileutils'
 
 $stdout.sync = true
+
+desc "remove logging files"
+task :remove_logging do
+	FileUtils.rm Dir.glob('*.log')
+end
