@@ -1,18 +1,3 @@
 require_relative "lib/follower_maze"
 
 $stdout.sync = true
-
-desc "Start the server"
-task :run_server, [:event_host, :client_host, :client_port, :event_port, :log_level] do |t, args|
-	p args
-  args.with_defaults(event_host: "127.0.0.1", client_host: "127.0.0.1", client_port: 9099, event_port: 9090, log_level: "debug")
-
-  $logger.level = Logger.const_get("#{args.log_level.upcase}")
-  client_config = OpenStruct.new(host: args.client_host, port: args.client_port)
-  event_config = OpenStruct.new(host: args.event_host, port: args.event_port)
-
-  server = FollowerMaze::Server.new(client_config, event_config)
-  server.start
-end
-
-task default: :run_server

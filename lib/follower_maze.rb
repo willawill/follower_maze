@@ -3,6 +3,7 @@ require 'socket'
 require "thread"
 require "logger"
 require "ostruct"
+require "optparse"
 require "pry"
 require 'ruby-prof'
 
