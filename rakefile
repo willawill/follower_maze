@@ -4,6 +4,6 @@ require 'fileutils'
 $stdout.sync = true
 
 desc "remove logging files"
-task :remove_logging do
+task :remove_logging_files do
 	FileUtils.rm Dir.glob('*.log')
 end

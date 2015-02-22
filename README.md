@@ -1,6 +1,6 @@
 ###README
 
-To run this solution to the follower_maze,
+To run this solution to the Follower Maze,
 
 `ruby ./bin/run_server.rb`
 
@@ -17,6 +17,10 @@ To run this solution to the follower_maze,
 and in another terminal window run
 
 `./bin/followermaze.sh`
+
+To remove all the logging files,
+
+`rake remove_logging_files`
 
 ##The Solution
 
