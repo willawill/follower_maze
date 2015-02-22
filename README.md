@@ -11,7 +11,7 @@ To run this solution to the Follower Maze,
         --event_prot=EVENTHOST       the port for event listener
         --client_host=CLIENTHOST     the host for event host address
         --client_port=CLIENTPORT     the host for event host address
-    -h, --help                       Display this screen
+    -h, --help                       display this screen
 ```
 
 and in another terminal window run
