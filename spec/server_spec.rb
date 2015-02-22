@@ -1,8 +1,8 @@
 require "spec_helper"
 module FollowerMaze
   describe FollowerMaze::Server do
-    let(:client_config) { double() }
-    let(:event_config) { double() }
+    let(:client_config) { double(host: "foo", port: "bar") }
+    let(:event_config) { double(host: "bar", port: "foo") }
 
     subject { described_class.new(client_config, event_config) }
 

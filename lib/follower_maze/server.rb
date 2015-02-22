@@ -18,9 +18,11 @@ module FollowerMaze
 
     def shut_down
       begin
-        @listeners.each { |l| l.kill }
-      rescue
-        $logger.info "Server shut down."
+        @listeners.map { |l| l.kill }
+      rescue IOError
+      ensure
+        puts "Bye!"
+        exit
       end
     end
   end
