@@ -13,10 +13,10 @@ require "./lib/follower_maze"
   end.parse!
 
   event_host = options[:event_host] || "127.0.0.1"
-  event_port = options[:event_host] || 9090
+  event_port = options[:event_host] || 9099
   client_host = options[:client_host] || "127.0.0.1"
-  client_port = options[:client_port] || 9099
-  log_level = options[:log_level] || "info"
+  client_port = options[:client_port] || 9090
+  log_level = options[:log_level] || "warn"
 
   $logger.level = Logger.const_get("#{log_level.upcase}")
 
