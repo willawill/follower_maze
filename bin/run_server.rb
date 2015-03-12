@@ -6,7 +6,7 @@ options = {}
 OptionParser.new do |opts|
   opts.on("--log_level=LogLevel", "change the level of log") { |arg| options[:log_level] = arg }
   opts.on('--event_host=EVENTHOST', 'the host address for event listener') { |arg| options[:event_host] = arg }
-  opts.on('--event_prot=EVENTHOST', 'the port for event listener') { |arg| options[:event_port] = arg }
+  opts.on('--event_port=EVENTPORT', 'the port for event listener') { |arg| options[:event_port] = arg }
   opts.on('--client_host=CLIENTHOST', 'the host for event host address') { |arg| options[:client_host] = arg }
   opts.on('--client_port=CLIENTPORT', 'the host for event host address') { |arg| options[:client_port] = arg }
   opts.on('-h', '--help', 'Display this screen') { puts opts; exit }
@@ -20,8 +20,10 @@ log_level = options[:log_level] || "warn"
 
 $logger.level = Logger.const_get("#{log_level.upcase}")
 
-client_config = OpenStruct.new(host: event_host, port: event_port)
-event_config = OpenStruct.new(host: client_host, port: client_port)
+ServerConfig = Struct.new(:host, :port)
+
+client_config = ServerConfig.new(event_host, event_port)
+event_config = ServerConfig.new(client_host, client_port)
 
 server = FollowerMaze::Server.new(client_config, event_config)
 server.start

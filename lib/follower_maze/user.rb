@@ -18,7 +18,7 @@ module FollowerMaze
     end
 
     def notify(message)
-      @conn.puts message unless @conn == nil
+      @conn.puts message unless @conn.nil?
     end
   end
 end

@@ -31,7 +31,7 @@ module FollowerMaze
 
     def execute!
       to_user.add_follower(@from)
-      to_user.notify(@pay_load + "\r\n")
+      to_user.notify(@pay_load)
     end
   end
 
