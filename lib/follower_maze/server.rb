@@ -17,13 +17,13 @@ module FollowerMaze
     end
 
     def shut_down
-      begin
-        @listeners.map { |l| l.kill }
-      rescue IOError
-      ensure
-        puts "Bye!"
-        exit
+      @listeners.each do |l|
+        begin
+          l.kill
+        rescue IOError
+        end
       end
+      puts "Bye!"
     end
   end
 end
