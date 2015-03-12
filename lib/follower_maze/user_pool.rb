@@ -12,13 +12,13 @@ module FollowerMaze
       end
 
       def connected_users
-        @@users.select { |id, user| user.conn != nil }
+        @@users.reject { |id, user| user.conn.nil? }
       end
 
       def add_or_update_user(user_id, conn)
         user = find_or_create_user(user_id)
 
-        unless conn == nil
+        unless conn.nil?
           user.conn = conn
           @@users[user.id] = user
         end

@@ -18,7 +18,11 @@ module FollowerMaze
     end
 
     def notify(message)
-      @conn.puts message unless @conn.nil?
+      if @conn.nil?
+        $logger.debug("#{self.id} is not connected. Tried to send #{message}")
+      else
+        @conn.puts message
+      end
     end
   end
 end

@@ -19,10 +19,12 @@ module FollowerMaze
 
     private
 
-    ["to", "from"].each do |name|
-      define_method "#{name}_user" do
-        UserPool.find_or_create_user(self.send name)
-      end
+    def to_user
+      UserPool.find_or_create_user(@to)
+    end
+
+    def from_user
+      UserPool.find_or_create_user(@from)
     end
   end
 
