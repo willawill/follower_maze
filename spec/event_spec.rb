@@ -24,38 +24,6 @@ module FollowerMaze
       end
     end
 
-    describe ".concrete_event" do
-      context "#FollowEvent" do
-        it "creates a FollowEvent" do
-          expect(Event.concrete_event("F")).to eq(FollowEvent)
-        end
-      end
-
-      context "#UnfollowEvent" do
-        it "creates an UnfollowEvent" do
-          expect(Event.concrete_event("U")).to eq(UnfollowEvent)
-        end
-      end
-
-      context "#StatusUpdateEvent" do
-        it "creates a StatusUpdateEvent" do
-          expect(Event.concrete_event("S")).to eq(StatusUpdateEvent)
-        end
-      end
-
-      context "#BroadcastEvent" do
-        it "creates a BroadcastEvent" do
-          expect(Event.concrete_event("B")).to eq(BroadcastEvent)
-        end
-      end
-
-      context "#PrivateMessageEvent"do
-        it "creates a PrivateMessage" do
-          expect(Event.concrete_event("P")).to eq(PrivateMessageEvent)
-        end
-      end
-    end
-
     context "Concrete Events" do
       let(:to_user) { instance_double(User, notify: "message", add_follower: "add_follower" ) }
 
@@ -134,15 +102,6 @@ module FollowerMaze
           expect(to_user).to receive(:notify).with("12|P|123|345")
 
           private_message.execute!
-        end
-      end
-
-      describe InvalidEvent do
-        it "will be logged into logfile" do
-          allow_message_expectations_on_nil
-          expect($logger).to receive(:warn).with("The event 12|123|345 is invalid")
-
-          invalid.execute!
         end
       end
     end

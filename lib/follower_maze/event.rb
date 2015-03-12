@@ -1,28 +1,16 @@
 module FollowerMaze
   class Event
     attr_reader :id, :from, :event_type, :to, :pay_load
+    @@event_type_map = {}
+
+    def self.register(type)
+      @@event_type_map[type] = self
+    end
 
     def self.create_event(pay_load)
       id, event_type, from, to = pay_load.split("|")
-      klass = concrete_event(event_type)
+      klass = @@event_type_map[event_type]
       klass.new(id, event_type, from, to, pay_load)
-    end
-
-    def self.concrete_event(event_type)
-      case event_type
-      when "F"
-        FollowEvent
-      when "U"
-        UnfollowEvent
-      when "B"
-        BroadcastEvent
-      when "S"
-        StatusUpdateEvent
-      when "P"
-        PrivateMessageEvent
-      else
-        InvalidEvent
-      end
     end
 
     def initialize(id, event_type, from, to, pay_load)
@@ -39,6 +27,8 @@ module FollowerMaze
   end
 
   class FollowEvent < Event
+    register "F"
+
     def execute!
       to_user.add_follower(@from)
       to_user.notify(@pay_load + "\r\n")
@@ -46,12 +36,16 @@ module FollowerMaze
   end
 
   class UnfollowEvent < Event
+    register "U"
+
     def execute!
       to_user.remove_follower(@from)
     end
   end
 
   class BroadcastEvent < Event
+    register "B"
+
     def execute!
       UserPool.connected_users.each do |_, user|
         user.notify(@pay_load)
@@ -60,6 +54,8 @@ module FollowerMaze
   end
 
   class StatusUpdateEvent < Event
+    register "S"
+
     def execute!
       from_user.followers.each do |user_id|
         follower = UserPool.find_or_create_user(user_id)
@@ -69,14 +65,10 @@ module FollowerMaze
   end
 
   class PrivateMessageEvent < Event
+    register "P"
+
     def execute!
       to_user.notify(@pay_load)
-    end
-  end
-
-  class InvalidEvent < Event
-    def execute!
-      $logger.warn("The event #{@pay_load} is invalid")
     end
   end
 end
