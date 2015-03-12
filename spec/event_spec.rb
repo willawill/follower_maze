@@ -40,7 +40,7 @@ module FollowerMaze
 
           context "when the user is connected" do
             it "notifies the to_user with event payload" do
-              expect(to_user).to receive(:notify).with("12|F|123|345\r\n")
+              expect(to_user).to receive(:notify).with("12|F|123|345")
               follow.execute!
             end
 

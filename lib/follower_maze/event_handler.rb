@@ -5,8 +5,8 @@ module FollowerMaze
     class << self
       def add_event(event)
         @@events_buffer.add_event(event)
-        while @@events_buffer.has_next?
-          event = @@events_buffer.get_next
+
+        @@events_buffer.ready_events do |event|
           $logger.debug "Event #{event.pay_load} should be executing...."
           event.execute!
         end

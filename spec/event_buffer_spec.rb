@@ -18,37 +18,22 @@ module FollowerMaze
       end
     end
 
-    describe "#has_next?" do
-      context "when there is an event with the next event ID" do
-        it "returns true" do
-          subject.add_event(event_double)
-          expect(subject.has_next?).to eq(true)
-        end
-      end
-
-      context "when there is no event with the next event ID" do
-        it "returns false" do
-          expect(subject.has_next?).to eq(false)
-        end
-      end
-    end
-
     describe "#get_next" do
       before(:each) do
         subject.add_event(event_double)
       end
 
       it "returns the event with next event ID" do
-        expect(subject.get_next).to eq(event_double)
+        expect { |b| subject.ready_events &b }.to yield_with_args(event_double)
       end
 
       it "removes the event with next event ID from the event buffer" do
-        subject.get_next
+        subject.ready_events {}
         expect(subject.instance_variable_get("@events")).to eq({})
       end
 
       it "increases the next_event ID by 1" do
-        subject.get_next
+        subject.ready_events {}
         expect(subject.instance_variable_get("@next_event")).to eq(2)
       end
     end

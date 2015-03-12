@@ -9,12 +9,19 @@ module FollowerMaze
       @events[event.id] = event
     end
 
-    def has_next?
-      !@events[@next_event].nil?
-    end
+    # def has_next?
+    #   !@events[@next_event].nil?
+    # end
 
-    def get_next
-      @events.delete(@next_event).tap { @next_event +=1 }
+    # def get_next
+    #   @events.delete(@next_event).tap { @next_event +=1 }
+    # end
+
+    def ready_events
+      while e = @events.delete(@next_event)
+        yield e
+        @next_event += 1
+      end
     end
   end
 end
