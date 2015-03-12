@@ -2,10 +2,9 @@ require "spec_helper"
 
 module FollowerMaze
   describe UserPool do
+    subject { described_class }
     let(:user) { User.new("id", nil) }
     let(:connection) { double(puts: "message") }
-
-    subject { UserPool }
 
     after(:each) { subject.all_users = {} }
 
